@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif: Panca Indra (Mata)</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        nav button:hover, nav button.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Anatomi Interactive */
+        .anatomy-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .anatomy-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .eye-svg {
+            width: 100%;
+            height: auto;
+            max-width: 350px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .part-btn {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .part-btn:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .info-box {
+            background: #e0f2fe;
+            border-left: 5px solid var(--secondary);
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 120px;
+        }
+
+        /* Simulation Pupil */
+        .sim-box {
+            text-align: center;
+            background: #000;
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .eye-sim {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .iris-sim {
+            width: 90px;
+            height: 90px;
+            background: #2563eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pupil-sim {
+            width: 50px;
+            height: 50px;
+            background: black;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+
+        .slider-control {
+            margin-top: 15px;
+        }
+
+        /* Quiz */
+        .quiz-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.2s;
+        }
+
+        .quiz-option:hover {
+            background: #e2e8f0;
+        }
+
+        .quiz-option.correct {
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #15803d;
+        }
+
+        .quiz-option.wrong {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #b91c1c;
+        }
+
+        .next-btn {
+            margin-top: 15px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #64748b;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>👁️ Media Pembelajaran Interaktif</h1>
+        <p>Panca Indra: Indra Penglihat (Mata) — Kelas 5 SD</p>
+    </header>
+
+    <nav>
+        <button class="nav-btn active" onclick="showSection('materi')">📖 Bagian Mata</button>
+        <button class="nav-btn" onclick="showSection('simulasi')">💡 Simulasi Pupil</button>
+        <button class="nav-btn" onclick="showSection('kuis')">🏆 Kuis Interaktif</button>
+    </nav>
+
+    <!-- SECTION 1: MATERI & ANATOMI INTERAKTIF -->
+    <section id="materi" class="section active">
+        <h2>Anatomi Bagian-Bagian Mata</h2>
+        <p>Klik bagian warna pada gambar mata di bawah untuk melihat nama dan fungsinya!</p>
+        <br>
+        <div class="anatomy-container">
+            <div>
+                <svg class="eye-svg" viewBox="0 0 300 200">
+                    <!-- Sklera (Latar Belakang Putih) -->
+                    <path d="M 30 100 Q 150 20 270 100 Q 150 180 30 100 Z" fill="#ffffff" stroke="#333" stroke-width="3"/>
+                    
+                    <!-- Kornea & Iris (Biru) -->
+                    <circle class="part-btn" cx="150" cy="100" r="50" fill="#3b82f6" onclick="explain('iris')" />
+                    
+                    <!-- Pupil (Hitam) -->
+                    <circle class="part-btn" cx="150" cy="100" r="25" fill="#000000" onclick="explain('pupil')" />
+                    
+                    <!-- Lensa (Garis Putih/Kuning Transparan) -->
+                    <ellipse class="part-btn" cx="150" cy="100" rx="15" ry="35" fill="rgba(255, 255, 255, 0.6)" stroke="#f59e0b" stroke-width="2" onclick="explain('lensa')" />
+                    
+                    <!-- Retina (Garis Merah Belakang) -->
+                    <path class="part-btn" d="M 230 55 Q 260 100 230 145" fill="none" stroke="#ef4444" stroke-width="6" onclick="explain('retina')" />
+                    
+                    <!-- Saraf Mata -->
+                    <rect class="part-btn" x="260" y="92" width="35" height="16" fill="#8b5cf6" onclick="explain('saraf')" />
+                </svg>
+            </div>
+            <div>
+                <div class="info-box" id="info-display">
+                    <h3>Pilih Bagian Mata</h3>
+                    <p>Klik salah satu lingkaran/garis warna pada gambar mata di samping untuk mengetahui deskripsinya.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: SIMULASI PUPIL -->
+    <section id="simulasi" class="section">
+        <h2>Simulasi Kerja Pupil Mata</h2>
+        <p>Pupil berfungsi mengatur banyaknya cahaya yang masuk ke mata. Coba geser intensitas cahaya di bawah ini!</p>
+        
+        <div class="sim-box" id="sim-box">
+            <span id="light-status">Cahaya: Normal</span>
+            <div class="eye-sim">
+                <div class="iris-sim">
+                    <div class="pupil-sim" id="pupil-element"></div>
+                </div>
+            </div>
+            <div class="slider-control">
+                <label for="lightRange">Intensitas Cahaya (Gelap ➡️ Terang): </label><br><br>
+                <input type="range" id="lightRange" min="10" max="80" value="50" oninput="adjustPupil(this.value)">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: KUIS INTERAKTIF -->
+    <section id="kuis" class="section">
+        <h2>Kuis Panca Indra (Mata)</h2>
+        <div id="quiz-container">
+            <h3 id="question-text">Pertanyaan akan muncul di sini...</h3>
+            <div id="options-container"></div>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()" style="display:none;">Soal Berikutnya ➡️</button>
+        </div>
+        <div id="result-container" style="display:none; text-align:center;">
+            <h3>Kuis Selesai! 🎉</h3>
+            <p id="score-text" style="font-size: 1.5em; margin: 15px 0; color: var(--primary);"></p>
+            <button class="next-btn" onclick="restartQuiz()">Ulangi Kuis</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>Media Pembelajaran IPA Kelas 5 SD &copy; 2026</p>
+    </footer>
+
+    <script>
+        // Navigasi Section
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Informasi Anatomi
+        const dataMata = {
+            'iris': { title: 'Iris (Selaput Pelangi)', desc: 'Memberikan warna pada mata dan mengatur besar kecilnya pupil.' },
+            'pupil': { title: 'Pupil', desc: 'Celah/lubang tempat masuknya cahaya ke dalam mata. Pupil mengecil saat terang dan membesar saat gelap.' },
+            'lensa': { title: 'Lensa Mata', desc: 'Memfokuskan cahaya agar bayangan benda jatuh tepat di retina.' },
+            'retina': { title: 'Retina (Selaput Jala)', desc: 'Layar penerima bayangan benda dan mengubahnya menjadi sinyal saraf.' },
+            'saraf': { title: 'Saraf Mata', desc: 'Meneruskan sinyal gambar dari retina ke otak untuk diterjemahkan.' }
+        };
+
+        function explain(part) {
+            const info = dataMata[part];
+            document.getElementById('info-display').innerHTML = `
+                <h3>${info.title}</h3>
+                <p>${info.desc}</p>
+            `;
+        }
+
+        // Simulasi Pupil
+        function adjustPupil(val) {
+            const pupil = document.getElementById('pupil-element');
+            const simBox = document.getElementById('sim-box');
+            const status = document.getElementById('light-status');
+            
+            // Kebalikan: Cahaya terang -> Pupil kecil
+            let size = 90 - val;
+            pupil.style.width = size + 'px';
+            pupil.style.height = size + 'px';
+
+            if(val > 60) {
+                status.innerText = "Cahaya: Sangat Terang (Pupil Mengecil)";
+                simBox.style.background = "#fff";
+                simBox.style.color = "#000";
+            } else if(val < 30) {
+                status.innerText = "Cahaya: Gelap/Redup (Pupil Membesar)";
+                simBox.style.background = "#111";
+                simBox.style.color = "#fff";
+            } else {
+                status.innerText = "Cahaya: Normal";
+                simBox.style.background = "#333";
+                simBox.style.color = "#fff";
+            }
+        }
+
+        // Kuis Data
+        const questions = [
+            {
+                q: "Bagian mata yang berfungsi memberi warna pada mata adalah...",
+                options: ["Pupil", "Iris", "Retina", "Korne"],
+                answer: 1
+            },
+            {
+                q: "Bagian mata yang bertindak sebagai layar penerima bayangan adalah...",
+                options: ["Saraf Mata", "Lensa Mata", "Retina", "Pupil"],
+                answer: 2
+            },
+            {
+                q: "Apa yang terjadi pada pupil saat kita berada di tempat yang sangat terang?",
+                options: ["Pupil membesar", "Pupil mengecil", "Pupil menutup", "Pupil berubah warna"],
+                answer: 1
+            },
+            {
+                q: "Bagian mata yang meneruskan rangsangan cahaya/sinyal ke otak adalah...",
+                options: ["Saraf Mata", "Iris", "Pupil", "Lensa"],
+                answer: 0
+            }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const q = questions[currentQ];
+            document.getElementById('question-text').innerText = `${currentQ + 1}. ${q.q}`;
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = '';
+            document.getElementById('next-btn').style.display = 'none';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(idx, btn);
+                optsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, btn) {
+            const correct = questions[currentQ].answer;
+            const buttons = document.querySelectorAll('.quiz-option');
+            
+            buttons.forEach(b => b.disabled = true);
+
+            if (selected === correct) {
+                btn.classList.add('correct');
+                score += 25;
+            } else {
+                btn.classList.add('wrong');
+                buttons[correct].classList.add('correct');
+            }
+
+            document.getElementById('next-btn').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQ++;
+            if (currentQ < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById('quiz-container').style.display = 'none';
+                document.getElementById('result-container').style.display = 'block';
+                document.getElementById('score-text').innerText = `Nilai Kamu: ${score} / 100`;
+            }
+        }
+
+        function restartQuiz() {
+            currentQ = 0;
+            score = 0;
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('result-container').style.display = 'none';
+            loadQuestion();
+        }
+
+        // Init Kuis
+        loadQuestion();
+    </script>
+</body>
+</html>
